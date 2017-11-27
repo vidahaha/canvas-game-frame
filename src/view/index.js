@@ -1,16 +1,21 @@
 import Render from './render'
 
 class Init {
-	constructor(w, h, color, target) {
+	constructor(oCanvas, target) {
 		let canvas = document.createElement("canvas")
-		canvas.width = w
-		canvas.height = h
+		canvas.width = oCanvas.width
+		canvas.height = oCanvas.height
+		canvas.style.backgroundColor = oCanvas.backgroundColor
 		target.appendChild( canvas )
 		this.canvas = canvas
 	}
 
-	render( ele ) {
-		ele = new Render()
+	render( oSeries ) {
+		let eleFromRender = []
+		oSeries.forEach(ele => {
+			eleFromRender.push( new Render( ele, this.canvas ) )
+		})		 
+		return eleFromRender
 	}
 }
 

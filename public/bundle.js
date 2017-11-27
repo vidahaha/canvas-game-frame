@@ -85,7 +85,7 @@ var vida = {
         var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
             canvas: {
                 width: 500,
-                hight: 500,
+                height: 500,
                 background: '#666',
                 opacity: 0.8
             },
@@ -93,14 +93,16 @@ var vida = {
             series: [{
                 name: 'vida_1',
                 type: 'circular',
-                shape: [5],
+                shape: [20],
+                position: [100, 100],
                 attr: {
                     backgroundColor: 'red'
                 }
             }, {
                 name: 'vida_2',
                 type: 'square',
-                shape: [5, 10],
+                shape: [20, 40],
+                position: [50, 50],
                 attr: {
                     backgroundColor: 'red'
                 }
@@ -108,7 +110,8 @@ var vida = {
         };
 
         var canvas = this._initCanvas(option.canvas);
-        canvas.render(option.series);
+        var res = canvas.render(option.series);
+        console.log(res);
     },
     _initCanvas: function _initCanvas(oCanvas) {
         var target = document.getElementById('canvas');
@@ -141,20 +144,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Init = function () {
-	function Init(w, h, color, target) {
+	function Init(oCanvas, target) {
 		_classCallCheck(this, Init);
 
 		var canvas = document.createElement("canvas");
-		canvas.width = w;
-		canvas.height = h;
+		canvas.width = oCanvas.width;
+		canvas.height = oCanvas.height;
+		canvas.style.backgroundColor = oCanvas.backgroundColor;
 		target.appendChild(canvas);
 		this.canvas = canvas;
 	}
 
 	_createClass(Init, [{
 		key: "render",
-		value: function render(ele) {
-			ele = new _render2.default();
+		value: function render(oSeries) {
+			var _this = this;
+
+			var eleFromRender = [];
+			oSeries.forEach(function (ele) {
+				eleFromRender.push(new _render2.default(ele, _this.canvas));
+			});
+			return eleFromRender;
 		}
 	}]);
 
@@ -174,6 +184,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var BASIC_SHAPE_ATTRIBUTES = {
@@ -189,9 +201,44 @@ var BASIC_COLOR_ATTRIBUTES = {
 	borderColor: '#000'
 };
 
-var Render = function Render(name, type, shape, attr) {
-	_classCallCheck(this, Render);
-};
+var Render = function () {
+	function Render(ele, canvas) {
+		_classCallCheck(this, Render);
+
+		var ctx = canvas.getContext('2d');
+		this.view = ele;
+		if (ctx) {
+			this._draw(ctx, ele);
+		}
+	}
+
+	_createClass(Render, [{
+		key: '_draw',
+		value: function _draw(ctx, ele) {
+			var type = ele.type,
+			    shape = ele.shape,
+			    position = ele.position,
+			    attr = ele.attr;
+
+			ctx.fillStyle = attr.backgroundColor || 'red';
+			switch (type) {
+				case 'square':
+					{
+						ctx.fillRect(position[0], position[1], shape[0], shape[1]);
+						break;
+					}
+				case 'circular':
+					{
+						ctx.beginPath();
+						ctx.arc(position[0], position[1], shape[0], 0, Math.PI * 2);
+						ctx.fill();
+					}
+			}
+		}
+	}]);
+
+	return Render;
+}();
 
 exports.default = Render;
 

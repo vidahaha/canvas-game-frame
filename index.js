@@ -5,7 +5,7 @@ let vida = {
     setOption(option = {
         canvas: {
             width: 500,
-            hight: 500,
+            height: 500,
             background: '#666',
             opacity: 0.8
         },
@@ -13,21 +13,24 @@ let vida = {
         series: [{
             name: 'vida_1',
             type: 'circular',
-            shape: [5],
+            shape: [20],
+            position: [100, 100],
             attr: {
                 backgroundColor: 'red'
             }
         }, {
             name: 'vida_2',
             type: 'square',
-            shape: [5, 10],
+            shape: [20, 40],
+            position: [50, 50],
             attr: {
                 backgroundColor: 'red'
             }
         }]
     }) {
         const canvas = this._initCanvas( option.canvas )
-        canvas.render( option.series )
+        let res = canvas.render( option.series )
+        console.log( res )
     },
 
     _initCanvas( oCanvas ) {
