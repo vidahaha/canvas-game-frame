@@ -81,11 +81,39 @@ var _index2 = _interopRequireDefault(_index);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var vida = {
-    setOption: function setOption(option) {},
-    _initCanvas: function _initCanvas() {
+    setOption: function setOption() {
+        var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+            canvas: {
+                width: 500,
+                hight: 500,
+                background: '#666',
+                opacity: 0.8
+            },
+
+            series: [{
+                name: 'vida_1',
+                type: 'circular',
+                shape: [5],
+                attr: {
+                    backgroundColor: 'red'
+                }
+            }, {
+                name: 'vida_2',
+                type: 'square',
+                shape: [5, 10],
+                attr: {
+                    backgroundColor: 'red'
+                }
+            }]
+        };
+
+        var canvas = this._initCanvas(option.canvas);
+        canvas.render(option.series);
+    },
+    _initCanvas: function _initCanvas(oCanvas) {
         var target = document.getElementById('canvas');
-        var canvas = new _index2.default(500, 500, '#000', target);
-        canvas.render();
+        var canvas = new _index2.default(oCanvas, target);
+        return canvas;
     }
 };
 
