@@ -78,6 +78,10 @@ var _index = __webpack_require__(1);
 
 var _index2 = _interopRequireDefault(_index);
 
+var _log = __webpack_require__(3);
+
+var _log2 = _interopRequireDefault(_log);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var vida = {
@@ -111,7 +115,7 @@ var vida = {
 
         var canvas = this._initCanvas(option.canvas);
         var res = canvas.render(option.series);
-        console.log(res);
+        _log2.default.warn(res);
     },
     _initCanvas: function _initCanvas(oCanvas) {
         var target = document.getElementById('canvas');
@@ -241,6 +245,31 @@ var Render = function () {
 }();
 
 exports.default = Render;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+if (typeof logx === 'undefined') {
+    var _logx = function _logx(arg) {
+        return console.log(arg);
+    };
+    _logx.warn = function (arg) {
+        return console.info('%c' + arg, 'color: blue; font-style: italic');
+    };
+    _logx.error = function (arg) {
+        return console.info('%c' + arg, 'color: red; font-style: italic');
+    };
+    window.logx = _logx;
+}
+
+exports.default = logx;
 
 /***/ })
 /******/ ]);

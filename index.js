@@ -1,4 +1,5 @@
 import Init from './src/view/index'
+import logx from './src/util/log'
 
 let vida = {
 
@@ -30,7 +31,7 @@ let vida = {
     }) {
         const canvas = this._initCanvas( option.canvas )
         let res = canvas.render( option.series )
-        console.log( res )
+        logx.warn( res )
     },
 
     _initCanvas( oCanvas ) {
